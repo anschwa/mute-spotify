@@ -1,5 +1,11 @@
 * Mute Spotify During Ads
 
+Add the following to =Contents/Info.plist= to remove the Dock icon.
+#+BEGIN_SRC text
+<key>LSUIElement</key>
+<true/>
+#+END_SRC
+
 #+BEGIN_SRC text
 -- Mute Spotify During Ads
 on idle
