@@ -1,0 +1,45 @@
+* Mute Spotify During Ads
+
+#+BEGIN_SRC text
+-- Mute Spotify During Ads
+on idle
+	set prefPath to (path to preferences as text) & "mute_spotify_prefs.scpt"
+	script pref
+		property volume : missing value
+	end script
+	
+	try
+		set pref to load script file prefPath
+	on error
+		set pref's volume to 100
+	end try
+	
+	if application "Spotify" is running then
+		tell application "System Events"
+			set runCount to count (every process whose name is "Spotify")
+		end tell
+		if runCount > 0 then
+			tell application "Spotify"
+				if the sound volume is greater than 0 and the sound volume is not equal to pref's volume then
+					set pref's volume to the sound volume
+				end if
+				
+				if player state is playing then
+					set the sound volume to pref's volume
+					set _title to name of current track
+					set _artist to artist of current track
+					set _album to album of current track
+					
+					if _artist is equal to "" and _album is equal to "" then
+						set pref's volume to the sound volume
+						set the sound volume to 0
+						play
+					end if
+				end if
+			end tell
+			store script pref in file prefPath replacing yes
+		end if
+	end if
+	return 1
+end idle
+#+END_SRC
