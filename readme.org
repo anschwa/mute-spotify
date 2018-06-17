@@ -37,7 +37,6 @@ on idle
 					set _album to album of current track
 					
 					if _artist is equal to "" and _album is equal to "" then
-						set pref's volume to the sound volume
 						set the sound volume to 0
 						play
 					end if
